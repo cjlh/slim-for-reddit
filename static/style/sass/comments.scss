@@ -1,0 +1,75 @@
+// Import master
+@import "_master.scss";
+
+// Begin styles
+
+.comments-container {
+	padding: 0;
+}
+
+.comment-container {
+	padding: 1.2rem 0 0 0;
+}
+
+.comment-contents {
+}
+
+.comment-reply {
+	padding-left: 1.5rem;
+	padding-right: 0.5rem;
+}
+
+.comment-hidden .comment-contents {
+	display: none;
+}
+
+.comment-paragraph {
+	margin: 0.3rem 0;
+}
+
+.comment-header {
+	padding-bottom: 0.2rem;
+}
+
+.comment-collapse-button-container {
+	margin-right: 0.2rem;
+}
+
+.comment-actions-above {
+	margin-right: 0.2rem;
+}
+
+.comment-flair {
+	margin-left: 0.3rem;
+	font-style: italic;
+}
+
+.comment-collapse-button {
+	padding: 0 0.05rem;
+}
+
+.comment-vote-button {
+	display: inline-block;
+	padding: 0 0.1rem;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.comment-vote-button-icon-up {
+	@include comment-vote-button-icon;
+	background-image: url('../img/comment-upvote.png');
+}
+
+.comment-vote-button-icon-down {
+	@include comment-vote-button-icon;
+	background-image: url('../img/comment-downvote.png');
+}
+
+.comment-vote-count {
+	//
+}
+
+.comment-op {
+	color: #0864db !important;
+}

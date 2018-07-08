@@ -1,0 +1,28 @@
+// Mixins
+
+@mixin outer-container {
+	padding: 0.2rem 0.8rem;
+}
+
+@mixin vote-button-icon {
+	background-repeat: no-repeat;
+	display: block;
+}
+
+@mixin post-vote-button-icon {
+	@include vote-button-icon;
+	width: 12px;
+	height: 12px;
+}
+
+@mixin comment-vote-button-icon {
+	@include vote-button-icon;
+	width: 9px;
+	height: 9px;
+}
+
+@mixin inline-links-list-separator {
+	content: "\2219";
+	// content: '·';
+	padding: 0 0.1rem 0 0.35rem;
+}

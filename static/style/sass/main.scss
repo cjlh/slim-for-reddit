@@ -1,0 +1,205 @@
+// Import master
+@import "_master.scss";
+
+// Begin styles
+
+* {
+	box-sizing: border-box;
+}
+
+*:focus {
+	outline: none;
+}
+
+html, body {
+	margin: 0;
+}
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+.container {
+	margin: 0 auto;
+	padding: 2rem;
+	width: 100%;
+	max-width: 1000px;
+}
+
+.header {
+	@include outer-container;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	background-color: #ff4500;
+	color: #FFFFFF;
+	//font-size: 1.2rem;
+}
+
+.home-button {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	text-decoration: none;
+	color: inherit;
+	padding: 0;
+	margin: 0;
+}
+
+.home-button-icon {
+	display: block;
+	height: 14px;
+	width: 14px;
+	padding: 0;
+	margin: 0;
+	background-image: url('../img/home.png');
+}
+
+.header-title {
+	padding-left: 0.7rem;
+	font-weight: bold;
+}
+
+.header-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.content {
+	@include outer-container;
+	background-color: #f5f5f5;
+}
+
+.post-list {
+	padding: 0.25rem 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+.post-list-item {
+	padding: 0.5rem 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.post-vote-button-container {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	padding-right: 0.5rem;
+	align-items: center;
+	min-width: 50px;
+	max-width: 50px;
+}
+
+.post-vote-button {
+	flex-grow: 0;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.post-vote-button-icon-up {
+	@include post-vote-button-icon;
+	background-image: url('../img/upvote.png');
+}
+
+.post-vote-button-icon-down {
+	@include post-vote-button-icon;
+	background-image: url('../img/downvote.png');
+}
+
+.post-vote-count {
+	//
+}
+
+.post-info {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.post-title {
+	padding-bottom: 0.3rem;
+	line-height: 1.25;
+}
+
+.post-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.post-title a:active {
+	color: inherit;
+}
+
+.post-title a:visited {
+	color: #777777;
+}
+
+.subtext {
+	font-size: 0.8rem;
+	color: #777777;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.subtext-item {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+}
+
+.subtext-item:not(:last-child)::after {
+	@include inline-links-list-separator;
+}
+
+
+.subtext-item a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.subtext-item a:hover {
+	text-decoration: underline;
+}
+
+.footer {
+	@include outer-container;
+	background-color: #eaeaea;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.8rem;
+	color: #555555;
+}
+
+.footer-link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.footer-link:hover {
+	text-decoration: underline;
+}
+
+.footer-links {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.footer-links-item {
+	padding: 0;
+	margin: 0;
+	display: inline-block;
+}
+
+.footer-links-item:not(:last-child)::after {
+	@include inline-links-list-separator;
+}

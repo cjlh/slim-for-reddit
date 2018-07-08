@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+	<title>NAME: {{ post.title }}</title>
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+	<link href="{{ url_for('static', filename='style/main.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ url_for('static', filename='style/comments.css') }}" rel="stylesheet" type="text/css">
+	<script src="{{ url_for('static', filename='script/comments.js') }}" language="javascript"></script>
+</head>
+<body>
+	<div class="container">
+		<header class="header">
+			<a href="{{ url_for('view_frontpage') }}" class="home-button"><i class="home-button-icon"></i></a>
+			{% set page_url = url_for('view_subreddit', subreddit=post.subreddit) %}
+			<span class="header-title"><a href="{{ page_url }}">/r/{{ post.subreddit }}</a></span>
+		</header>
+		<div class="content">
+			<ul class="post-list">
+				<li class="post-list-item">
+					<div class="post-vote-button-container">
+						<button class="post-vote-button">
+							<i class="post-vote-button-icon-up"></i>
+						</button>
+						<span class="post-vote-count">{{ post.score }}</span>
+						<button class="post-vote-button">
+							<i class="post-vote-button-icon-down"></i>
+						</button>
+					</div>
+					<div class="post-info">
+						<span class="post-title"><a href="{{ post.url }}">{{ post.title }}.</a></span>
+						<ul class="subtext">
+							<li class="subtext-item"><a href="{{ post.comments.url }}" title="{{ post.timestamp }}">{{ post.time_string }}</a> in <a href="{{ url_for('view_subreddit', subreddit=post.subreddit) }}">/r/{{ post.subreddit }}</a> by <a href="#">{{ post.author }}</a></li>
+							{% if post.comments.count == 1 %}
+							{% set comments_string = 'comment' %}
+							{% else %}
+							{% set comments_string = 'comments' %}
+							{% endif %}
+							<li class="subtext-item"><a href="{{ post.comments.url }}">{{ post.comments.count }} {{ comments_string }}</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<div class="comments-container">
+				{% for comment in comments.comments recursive %}
+					<div class="comment-container">
+						<div class="comment-header">
+							<ul class="subtext">
+								{% set user_link = url_for('show_user_profile', username=comment.author) %}
+								<li class="subtext-item">
+									<span class="comment-actions-above">
+										<span class="comment-collapse-button-container">[<a href="javascript:void(0);" onclick="collapseComment(event);" class="comment-collapse-button" id="comment-collapse-button">&ndash;</a>]</span>
+										<button class="comment-vote-button">
+											<i class="comment-vote-button-icon-up"></i>
+										</button>
+										<button class="comment-vote-button">
+											<i class="comment-vote-button-icon-down"></i>
+										</button>
+									</span>
+									<a href="{{ user_link }}"{% if comment.author == post.author %} class="comment-op"{% endif %}>{{ comment.author }}</a>{% if (comment.author_flair_text) %}<span class="comment-flair">[{{ comment.author_flair_text }}]</span>{% endif %}</li>
+								{% if comment.score_hidden %}
+									<li class="subtext-item">Score hidden</li>
+								{% else %}
+									<li class="subtext-item">{{ comment.score }} {{ 'point' if comment.score == 1 else 'points' }}</li>
+								{% endif %}
+								<li class="subtext-item">{{ comment.time_string }}</li>
+							</ul>
+						</div>
+						<div class="comment-contents">
+							<div class="comment-body"><p class="comment-paragraph">{{ comment.body|replace('\n\n', '</p><p class="comment-paragraph">')|safe }}</p></div>
+							{% if comment.replies %}
+							<div class="comment-reply">
+								{{ loop(comment.replies) }}
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<footer class="footer">
+			<ul class="footer-links">
+				<li class="footer-links-item"><a href="#" class="footer-link">About</a></li>
+				<li class="footer-links-item"><a href="#" class="footer-link">Contact</a></li>
+			</ul>
+			<span>Made by <a href="https://calebh.com" class="footer-link">Caleb</a></span>
+		</footer>
+	</div>
+</body>
+</html>
