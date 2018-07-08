@@ -56,3 +56,7 @@ def view_single_comment(post_id):
 @app.route('/authorise')
 def authorise_callback():
     return
+
+if __name__ == '__main__':
+    app.run()
+
