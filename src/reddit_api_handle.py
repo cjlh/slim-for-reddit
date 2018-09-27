@@ -19,7 +19,7 @@ class Post:
 
         utc_time = json['data']['created_utc']
         self.timestamp = datetime.datetime.fromtimestamp(utc_time)
-        self.time_string = RedditHandler.created_utc_to_time_string(utc_time)
+        self.time_string = RedditApiHandle.created_utc_to_time_string(utc_time)
 
     def __str__(self):
         return self.title
@@ -71,7 +71,7 @@ class Comment:
 
         utc_time = json['data']['created_utc']
         self.timestamp = datetime.datetime.fromtimestamp(utc_time)
-        self.time_string = RedditHandler.created_utc_to_time_string(utc_time)
+        self.time_string = RedditApiHandle.created_utc_to_time_string(utc_time)
 
     def __str__(self):
         return self.body
@@ -101,7 +101,7 @@ class CommentList:
         return CommentList(before, after, comments, more)
 
 
-class RedditHandler:
+class RedditApiHandle:
     def __init__(self, client_id, client_secret):
         self.session = requests.Session()
         self.session.headers.update({'User-Agent': 'Cork for Reddit'})

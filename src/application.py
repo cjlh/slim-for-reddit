@@ -1,8 +1,8 @@
-import cjlh_reddit_handler
+import reddit_api_handle
 from flask import Flask
 from flask import render_template
 
-rh = cjlh_reddit_handler.RedditHandler('cCVvYBslK27M_A',
+rh = reddit_api_handle.RedditApiHandle('cCVvYBslK27M_A',
                                        'Utx0lA24OaKWbvUUfKjAow8e9BQ')
 app = Flask(__name__)
 
