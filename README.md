@@ -1,1 +1,1 @@
-# reddit-client
+# itsy-for-reddit
