@@ -1,1 +1,1 @@
-# itsy-for-reddit
+# slim-for-reddit
