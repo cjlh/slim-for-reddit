@@ -17,7 +17,7 @@ A lightweight read-only Reddit client written in Python using the Flask framewor
 
 ## Todo
 
--[ ] Comment context view
--[ ] Option to load more comments
--[ ] Parse r/ and u/ links in comment bodies
--[ ] Mod and admin highlighting
+- [ ] Comment context view
+- [ ] Option to load more comments
+- [ ] Parse r/ and u/ links in comment bodies
+- [ ] Mod and admin highlighting
