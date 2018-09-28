@@ -1,0 +1,22 @@
+// Import master
+@import "_master.scss";
+
+// Begin styles
+
+.profile-container {
+	padding: 0.8rem 0 0 0;
+}
+
+.profile-info-list {
+	list-style-type: none;
+	padding: 0 0 0.8rem 0;
+	margin: 0;
+}
+
+.profile-info-property {
+}
+
+.profile-hyperlink {
+	color: inherit;
+	text-decoration: underline;
+}

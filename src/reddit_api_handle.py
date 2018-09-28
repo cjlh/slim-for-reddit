@@ -3,6 +3,20 @@ import datetime
 import markdown2
 
 
+class User(object):
+    def __init__(self, json):
+        self.username = json['data']['name']
+        self.comment_karma = json['data']['comment_karma']
+        self.link_karma = json['data']['link_karma']
+
+        utc_time = json['data']['created']
+        self.joined_timestamp = datetime.datetime.fromtimestamp(utc_time)
+        self.joined_time_string = RedditApiHandle.utc_to_time_string(utc_time)
+
+    def __str__(self):
+        return self.username
+
+
 class Post(object):
     def __init__(self, json):
         self.post_id = json['data']['id']
@@ -143,6 +157,12 @@ class RedditApiHandle:
     def get_access_token(self):
         return self.access_token
 
+    def get_user_details(self, username):
+        request_url = 'https://www.reddit.com/user/' + username + \
+            '/about/.json'
+        r = self.session.get(request_url)
+        return User(r.json())
+
     def get_post_details(self, post_id):
         fullname = 't3_' + post_id
         request_url = 'https://www.reddit.com/by_id/' + fullname + '/.json'
@@ -181,12 +201,27 @@ class RedditApiHandle:
             'depth': 8,
             'sort': sort
         }
-        request_url = 'https://www.reddit.com/user/' + username + '/.json'
+        request_url = 'https://www.reddit.com/user/' + username + \
+            '/comments/.json'
         r = self.session.get(request_url,
                              data=get_data)
         comment_list = \
             CommentList.comments_json_to_commentlist(r.json(), True)
         return comment_list
+
+    def get_profile_submissions(self, username, limit, sort='new'):
+        get_data = {
+            'context': 1,
+            'limit': limit,
+            'sort': sort
+        }
+        request_url = 'https://www.reddit.com/user/' + username + \
+            '/submitted/.json'
+        r = self.session.get(request_url,
+                             data=get_data)
+        post_list = \
+            PostList.listing_json_to_postlist(r.json())
+        return post_list
 
     def get_comment_context(self):
         return

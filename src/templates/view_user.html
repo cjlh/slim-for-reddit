@@ -2,49 +2,33 @@
 <html lang="en">
 <html>
 <head>
-	<title>Slim: {{ username }}</title>
+	<title>Slim: {{ user.username }}</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
 	<link href="{{ url_for('static', filename='style/main.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ url_for('static', filename='style/comments.css') }}" rel="stylesheet" type="text/css">
-	<script src="{{ url_for('static', filename='script/comments.js') }}" language="javascript"></script>
+	<link href="{{ url_for('static', filename='style/profile.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="container">
 		<header class="header">
 			<a href="{{ url_for('view_frontpage') }}" class="home-button"><img class="home-button-icon" src="/static/img/home.png" alt="Home"></img></i></a>
-			{% set page_url = url_for('view_user', username=username) %}
-			<span class="header-title"><a href="{{ page_url }}">/u/{{ username }}</a></span>
+			{% set page_url = url_for('view_user', username=user.username) %}
+			<span class="header-title"><a href="{{ page_url }}">{{ user.username }}</a></span>
 		</header>
 		<div class="content">
-			<div class="comments-container">
-				{% for comment in comments.comments recursive %}
-					<div class="comment-container">
-						<div class="comment-header">
-							<ul class="subtext">
-								{% set user_link = url_for('view_user', username=comment.author) %}
-								<li class="subtext-item">
-									<span class="comment-actions-above">
-										<span class="comment-collapse-button-container">[<a href="javascript:void(0);" onclick="collapseComment(event);" class="comment-collapse-button" id="comment-collapse-button">&ndash;</a>]</span>
-									</span>
-									<a href="{{ user_link }}"{% if comment.author == username %} class="comment-op"{% endif %}>{{ comment.author }}</a>{% if (comment.author_flair_text) %}<span class="comment-flair">[{{ comment.author_flair_text }}]</span>{% endif %}</li>
-								{% if comment.score_hidden %}
-									<li class="subtext-item">Score hidden</li>
-								{% else %}
-									<li class="subtext-item">{{ comment.score }} {{ 'point' if comment.score == 1 else 'points' }}</li>
-								{% endif %}
-								<li class="subtext-item">{{ comment.time_string }} in <a href="{{ url_for('view_subreddit', subreddit=comment.subreddit) }}">/r/{{ comment.subreddit }}</a></li>
-							</ul>
-						</div>
-						<div class="comment-contents">
-							<div class="comment-body">{{ comment.body_html|safe }}</div>
-							{% if comment.replies %}
-							<div class="comment-reply">
-								{{ loop(comment.replies) }}
-							</div>
-							{% endif %}
-						</div>
-					</div>
-				{% endfor %}
+			<div class="profile-container">
+				<ul class="profile-info-list">
+					<li><span class="profile-info-property">Joined:</span> {{ user.joined_time_string }}</li>
+				</ul>
+				<ul class="profile-info-list">
+					<li><span class="profile-info-property">Link karma:</span> {{ user.link_karma }}</li>
+					<li><span class="profile-info-property">Comment karma:</span> {{ user.comment_karma }}</li>
+				</ul>
+				<ul class="profile-info-list">
+					{% set submissions_url = url_for('view_user_submissions', username=user.username) %}
+					<li><a href="{{ submissions_url }}" class="profile-hyperlink">View submissions</a></li>
+					{% set comments_url = url_for('view_user_comments', username=user.username) %}
+					<li><a href="{{ comments_url }}" class="profile-hyperlink">View comments</a></li>
+				</ul>
 			</div>
 		</div>
 		<footer class="footer">

@@ -19,3 +19,4 @@ A lightweight read-only Reddit client written in Python using the Flask framewor
 
 - View user profile
 - Parse r/ and u/ links in comment bodies
+- Mod and admin highlighting

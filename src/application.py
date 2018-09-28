@@ -35,10 +35,27 @@ def view_subreddit(subreddit):
 @app.route('/u/<username>')
 def view_user(username):
     # Show the user profile of a requested user.
-    comments_list = rh.get_profile_comments(username, 100, 8)
+    user_details = rh.get_user_details(username)
     return render_template('view_user.html',
+                           user=user_details)
+
+
+@app.route('/u/<username>/comments')
+def view_user_comments(username):
+    # Show the comments of a requested user.
+    comments_list = rh.get_profile_comments(username, 100, 8)
+    return render_template('view_user_comments.html',
                            username=username,
                            comments=comments_list)
+
+
+@app.route('/u/<username>/submissions')
+def view_user_submissions(username):
+    # Show the comments of a requested user.
+    submissions_list = rh.get_profile_submissions(username, 10)
+    return render_template('view_user_submissions.html',
+                           username=username,
+                           posts=submissions_list.posts)
 
 
 @app.route('/comments/<post_id>')

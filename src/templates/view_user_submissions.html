@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+	<title>Slim: {{ username }}</title>
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+	<link href="{{ url_for('static', filename='style/main.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="container">
+		<header class="header">
+			<a href="{{ url_for('view_frontpage') }}" class="home-button"><img class="home-button-icon" src="/static/img/home.png" alt="Home"></img></i></a>
+			{% set page_url = url_for('view_user', username=username) %}
+			<span class="header-title"><a href="{{ page_url }}">{{ username }}'s</a> submissions</span>
+		</header>
+		<div class="content">
+			<ul class="post-list">
+				{% for post in posts %}
+					<li class="post-list-item">
+						<div class="post-count">{{ loop.index }}.</div>
+						<div class="post-info">
+							<span class="post-title"><a href="{{ post.url }}">{{ post.title }}.</a></span>
+							<ul class="subtext">
+								<li class="subtext-item">{{ post.score }} points</li>
+								{% set comments_url = url_for('view_comments', post_id=post.post_id) %}
+								<li class="subtext-item"><a href="{{ comments_url }}" title="{{ post.timestamp }}">{{ post.time_string }}</a> in <a href="{{ url_for('view_subreddit', subreddit=post.subreddit) }}">/r/{{ post.subreddit }}</a></li>
+								{% if post.comments.count == 1 %}
+								{% set comments_string = 'comment' %}
+								{% else %}
+								{% set comments_string = 'comments' %}
+								{% endif %}
+								<li class="subtext-item"><a href="{{ comments_url }}">{{ post.comments.count }} {{ comments_string }}</a></li>
+							</ul>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<footer class="footer">
+			<ul class="footer-links">
+				<li class="footer-links-item"><a href="#" class="footer-link">About</a></li>
+				<li class="footer-links-item"><a href="#" class="footer-link">Contact</a></li>
+			</ul>
+			<span>Made by <a href="https://calebh.com" class="footer-link">Caleb</a></span>
+		</footer>
+	</div>
+</body>
+</html>
