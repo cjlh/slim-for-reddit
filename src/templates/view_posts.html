@@ -2,14 +2,14 @@
 <html lang="en">
 <html>
 <head>
-	<title>NAME: {{ page.title }}</title>
+	<title>Slim: {{ page.title }}</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
 	<link href="{{ url_for('static', filename='style/main.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div class="container">
 		<header class="header">
-			<a href="{{ url_for('view_frontpage') }}" class="home-button"><i class="home-button-icon"></i></a>
+			<a href="{{ url_for('view_frontpage') }}" class="home-button"><img class="home-button-icon" src="/static/img/home.png" alt="Home"></img></a>
 			{% if page.path == '/' %}
 			{% set page_url = url_for('view_frontpage') %}
 			{% set page_heading = page.title %}
@@ -23,20 +23,13 @@
 			<ul class="post-list">
 				{% for post in posts %}
 					<li class="post-list-item">
-						<div class="post-vote-button-container">
-							<button class="post-vote-button">
-								<i class="post-vote-button-icon-up"></i>
-							</button>
-							<span class="post-vote-count">{{ post.score }}</span>
-							<button class="post-vote-button">
-								<i class="post-vote-button-icon-down"></i>
-							</button>
-						</div>
+						<div class="post-count">{{ loop.index }}.</div>
 						<div class="post-info">
 							<span class="post-title"><a href="{{ post.url }}">{{ post.title }}.</a></span>
 							<ul class="subtext">
+								<li class="subtext-item">{{ post.score }} points</li>
 								{% set comments_url = url_for('view_comments', post_id=post.post_id) %}
-								{% set user_link = url_for('show_user_profile', username=post.author) %}
+								{% set user_link = url_for('view_user', username=post.author) %}
 								<li class="subtext-item"><a href="{{ comments_url }}" title="{{ post.timestamp }}">{{ post.time_string }}</a> in <a href="{{ url_for('view_subreddit', subreddit=post.subreddit) }}">/r/{{ post.subreddit }}</a> by <a href="{{ user_link }}">{{ post.author }}</a></li>
 								{% if post.comments.count == 1 %}
 								{% set comments_string = 'comment' %}

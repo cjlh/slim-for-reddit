@@ -32,10 +32,13 @@ def view_subreddit(subreddit):
                            posts=post_list.posts)
 
 
-@app.route('/user/<username>')
-def show_user_profile(username):
+@app.route('/u/<username>')
+def view_user(username):
     # Show the user profile of a requested user.
-    return ('User %s' % username)
+    comments_list = rh.get_profile_comments(username, 100, 8)
+    return render_template('view_user.html',
+                           username=username,
+                           comments=comments_list)
 
 
 @app.route('/comments/<post_id>')
@@ -57,6 +60,6 @@ def view_single_comment(post_id):
 def authorise_callback():
     return
 
-if __name__ == '__main__':
-    app.run()
 
+if (__name__ == '__main__'):
+    app.run()

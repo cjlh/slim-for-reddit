@@ -4,11 +4,11 @@
 // Begin styles
 
 .comments-container {
-	padding: 0;
+	padding: 0 0 0.8rem 0;
 }
 
 .comment-container {
-	padding: 1.2rem 0 0 0;
+	padding: 0.8rem 0 0 0;
 }
 
 .comment-contents {
@@ -27,6 +27,11 @@
 	margin: 0.3rem 0;
 }
 
+.comment-hyperlink {
+	color: inherit;
+	text-decoration: underline;
+}
+
 .comment-header {
 	padding-bottom: 0.2rem;
 }
@@ -36,7 +41,7 @@
 }
 
 .comment-actions-above {
-	margin-right: 0.2rem;
+	margin-right: 0.1rem;
 }
 
 .comment-flair {
@@ -58,12 +63,12 @@
 
 .comment-vote-button-icon-up {
 	@include comment-vote-button-icon;
-	background-image: url('../img/comment-upvote.png');
+	background-image: url('/static/img/comment-upvote.png');
 }
 
 .comment-vote-button-icon-down {
 	@include comment-vote-button-icon;
-	background-image: url('../img/comment-downvote.png');
+	background-image: url('/static/img/comment-downvote.png');
 }
 
 .comment-vote-count {

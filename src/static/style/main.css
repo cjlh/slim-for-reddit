@@ -39,8 +39,7 @@ body {
   height: 14px;
   width: 14px;
   padding: 0;
-  margin: 0;
-  background-image: url("../img/home.png"); }
+  margin: 0; }
 
 .header-title {
   padding-left: 0.7rem;
@@ -60,41 +59,50 @@ body {
   list-style-type: none; }
 
 .post-list-item {
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   display: flex;
   flex-direction: row;
-  align-items: center; }
+  align-items: flex-start; }
 
-.post-vote-button-container {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
+.post-count {
   padding-right: 0.5rem;
-  align-items: center;
-  min-width: 50px;
-  max-width: 50px; }
+  min-width: 35px;
+  text-align: center; }
+
+/*
+.post-vote-button-container {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	padding-right: 0.5rem;
+	align-items: center;
+	min-width: 50px;
+	max-width: 50px;
+	margin-bottom: auto;
+}
 
 .post-vote-button {
-  flex-grow: 0;
-  padding: 0;
-  border: none;
-  background-color: transparent;
-  cursor: pointer; }
+	flex-grow: 0;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+}
 
 .post-vote-button-icon-up {
-  background-repeat: no-repeat;
-  display: block;
-  width: 12px;
-  height: 12px;
-  background-image: url("../img/upvote.png"); }
+	@include post-vote-button-icon;
+	background-image: url('/static/img/upvote.png');
+}
 
 .post-vote-button-icon-down {
-  background-repeat: no-repeat;
-  display: block;
-  width: 12px;
-  height: 12px;
-  background-image: url("../img/downvote.png"); }
+	@include post-vote-button-icon;
+	background-image: url('/static/img/downvote.png');
+}
 
+.post-vote-count {
+	margin-bottom: auto;
+}
+*/
 .post-info {
   display: flex;
   flex-direction: column;

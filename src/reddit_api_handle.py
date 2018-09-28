@@ -1,8 +1,9 @@
 import requests
 import datetime
+import markdown2
 
 
-class Post:
+class Post(object):
     def __init__(self, json):
         self.post_id = json['data']['id']
         self.title = json['data']['title']
@@ -19,13 +20,13 @@ class Post:
 
         utc_time = json['data']['created_utc']
         self.timestamp = datetime.datetime.fromtimestamp(utc_time)
-        self.time_string = RedditApiHandle.created_utc_to_time_string(utc_time)
+        self.time_string = RedditApiHandle.utc_to_time_string(utc_time)
 
     def __str__(self):
         return self.title
 
 
-class PostList:
+class PostList(object):
     def __init__(self, before, after, posts):
         self.before = before
         self.after = after
@@ -42,42 +43,68 @@ class PostList:
         return PostList(before, after, posts)
 
 
-class Comment:
-    def __init__(self, json, more=None, depth=0):
+class Comment(object):
+    def __init__(self, json):
         self.post_id = json['data']['id']
         self.gilded = json['data']['gilded']
         self.stickied = json['data']['stickied']
         self.archived = json['data']['archived']
         self.body = json['data']['body']
+        self.body_html = \
+            markdown2.markdown(json['data']['body'])\
+            .replace('<p>', '<p class="comment-paragraph">')\
+            .replace('<a ', '<a class="comment-hyperlink" ')\
+            .replace('<p></p>', '')
         self.permalink = json['data']['permalink']
         self.score_hidden = json['data']['score_hidden']
         self.score = json['data']['score']
         self.author = json['data']['author']
         self.subreddit = json['data']['subreddit']
-        self.depth = json['data']['depth']
         self.controversiality = json['data']['controversiality']
         self.author_flair_text = json['data']['author_flair_text']
 
-        replies = json['data']['replies']
-        self.replies = []
-        print('newcomment')
-        if (len(replies) > 0):
-            for reply in replies['data']['children']:
-                if (reply['kind'] == 't1'):
-                    self.replies.append(Comment(reply, depth=depth + 1))
-                elif(reply['kind'] == 'more'):
-                    print('more')
-                print(depth)
-
         utc_time = json['data']['created_utc']
         self.timestamp = datetime.datetime.fromtimestamp(utc_time)
-        self.time_string = RedditApiHandle.created_utc_to_time_string(utc_time)
+        self.time_string = RedditApiHandle.utc_to_time_string(utc_time)
 
     def __str__(self):
         return self.body
 
 
-class CommentList:
+class ThreadComment(Comment):
+    def __init__(self, json, more=None, depth=0):
+        Comment.__init__(self, json)
+
+        self.depth = json['data']['subreddit']
+
+        replies = json['data']['replies']
+        self.replies = []
+
+        if (len(replies) > 0):
+            for reply in replies['data']['children']:
+                if (reply['kind'] == 't1'):
+                    self.replies.append(ThreadComment(reply, depth=depth + 1))
+                elif(reply['kind'] == 'more'):
+                    print('more')
+                print('depth:', depth)
+
+
+class ProfileComment(Comment):
+    def __init__(self, json, more=None, depth=0):
+        Comment.__init__(self, json)
+
+        replies = json['data']['replies']
+        self.replies = []
+
+        if (len(replies) > 0):
+            for reply in replies['data']['children']:
+                if (reply['kind'] == 't1'):
+                    self.replies.append(ProfileComment(reply))
+                elif(reply['kind'] == 'more'):
+                    print('more')
+
+
+class CommentList(object):
     def __init__(self, before, after, comments, more):
         self.before = before
         self.after = after
@@ -85,15 +112,15 @@ class CommentList:
         self.more = more
 
     @classmethod
-    def comments_json_to_commentlist(cls, response_json):
-        json = response_json[1]
-        before = json['data']['before']
-        after = json['data']['after']
+    def comments_json_to_commentlist(cls, listing_json, is_profile=False):
+        before = listing_json['data']['before']
+        after = listing_json['data']['after']
         comments = []
         more = None
-        for comment_data in json['data']['children']:
+        for comment_data in listing_json['data']['children']:
             if (comment_data['kind'] == 't1'):
-                comment = Comment(comment_data)
+                comment = ThreadComment(comment_data)\
+                    if is_profile else ProfileComment(comment_data)
                 comments.append(comment)
             elif (comment_data['kind'] == 'more'):
                 # TODO: Make class for more?
@@ -104,7 +131,7 @@ class CommentList:
 class RedditApiHandle:
     def __init__(self, client_id, client_secret):
         self.session = requests.Session()
-        self.session.headers.update({'User-Agent': 'Cork for Reddit'})
+        self.session.headers.update({'User-Agent': 'Slim for Reddit'})
         self.session.auth = (client_id, client_secret)
         auth_post_data = {
             'grant_type': 'client_credentials'
@@ -144,17 +171,30 @@ class RedditApiHandle:
         request_url = 'https://www.reddit.com/comments/' + post_id + '/.json'
         r = self.session.get(request_url,
                              data=get_data)
-        comment_list = CommentList.comments_json_to_commentlist(r.json())
+        comment_list = CommentList.comments_json_to_commentlist(r.json()[1])
+        return comment_list
+
+    def get_profile_comments(self, username, limit, depth, sort='new'):
+        get_data = {
+            'context': 1,
+            'limit': limit,
+            'depth': 8,
+            'sort': sort
+        }
+        request_url = 'https://www.reddit.com/user/' + username + '/.json'
+        r = self.session.get(request_url,
+                             data=get_data)
+        comment_list = \
+            CommentList.comments_json_to_commentlist(r.json(), True)
         return comment_list
 
     def get_comment_context(self):
         return
 
     @staticmethod
-    def created_utc_to_time_string(created_utc):
-        time_now = datetime.datetime.now()
-        timestamp = datetime.datetime.fromtimestamp(created_utc)
-        time_delta = time_now - timestamp
+    def utc_to_time_string(utc):
+        time_delta = datetime.datetime.now() - \
+            datetime.datetime.fromtimestamp(utc)
         num_days = time_delta.days
         num_secs = time_delta.seconds
         if (num_days > 0):
@@ -181,8 +221,3 @@ class RedditApiHandle:
             else:
                 secs_string = ' second ' if (num_secs == 1) else ' seconds '
                 return str(num_secs) + secs_string + 'ago'
-
-
-if (__name__ == '__main__'):
-    print('This script is intended to be used as a module and does not',
-          'perform any functionality on its own.')

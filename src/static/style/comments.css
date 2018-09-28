@@ -1,8 +1,8 @@
 .comments-container {
-  padding: 0; }
+  padding: 0 0 0.8rem 0; }
 
 .comment-container {
-  padding: 1.2rem 0 0 0; }
+  padding: 0.8rem 0 0 0; }
 
 .comment-reply {
   padding-left: 1.5rem;
@@ -14,6 +14,10 @@
 .comment-paragraph {
   margin: 0.3rem 0; }
 
+.comment-hyperlink {
+  color: inherit;
+  text-decoration: underline; }
+
 .comment-header {
   padding-bottom: 0.2rem; }
 
@@ -21,7 +25,7 @@
   margin-right: 0.2rem; }
 
 .comment-actions-above {
-  margin-right: 0.2rem; }
+  margin-right: 0.1rem; }
 
 .comment-flair {
   margin-left: 0.3rem;
@@ -42,14 +46,14 @@
   display: block;
   width: 9px;
   height: 9px;
-  background-image: url("../img/comment-upvote.png"); }
+  background-image: url("/static/img/comment-upvote.png"); }
 
 .comment-vote-button-icon-down {
   background-repeat: no-repeat;
   display: block;
   width: 9px;
   height: 9px;
-  background-image: url("../img/comment-downvote.png"); }
+  background-image: url("/static/img/comment-downvote.png"); }
 
 .comment-op {
   color: #0864db !important; }
