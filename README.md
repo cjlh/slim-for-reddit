@@ -2,22 +2,46 @@
 
 A lightweight read-only Reddit client written in Python using the Flask framework.
 
+![Screenshot of Subreddit view](./screenshots/subreddit_view.png)
+
 
 ## Features
 
-- Text browser (e.g. Lynx) support
+- View front page and subreddit pages
+- View comment threads
+- View user profiles, including submissions and comments
+- Flair and OP-highlighting support
 
 
 ## Dependencies
 
 - Flask
-- Python modules:
+- Python 3 modules:
   - markdown2 (https://github.com/trentm/python-markdown2)
+
+
+## Installation and use
+
+- Install Flask and markdown2
+  - Using pip:
+    ```
+    pip3 install flask
+    pip3 install markdown2
+    ```
+- Clone the contents of this Git repository to a directory of your choice
+  - 
+    ```
+    cd some/directory/
+    git clone https://github.com/cjlh/slim-for-reddit.git .
+    ```
+- Run Flask using `application.py`:
+  - ```export FLASK_APP=application.py; flask run```
+
+- Open your web browser and visit the URL printed in the terminal (default: http://127.0.0.1:5000/)
 
 
 ## Todo
 
 - [ ] Comment context view
 - [ ] Option to load more comments
-- [ ] Parse r/ and u/ links in comment bodies
 - [ ] Mod and admin highlighting
