@@ -32,12 +32,15 @@ A lightweight read-only Reddit client written in Python using the Flask framewor
 
 - Clone the contents of this Git repository to a directory of your choice
   - E.g.:
+
     ```
     cd some/directory/
     git clone https://github.com/cjlh/slim-for-reddit.git .
     ```
 - Run Flask using `application.py`:
-  - ```export FLASK_APP=application.py; flask run```
+  - E.g. using the Flask server:
+    
+    ```export FLASK_APP=application.py; flask run```
 
 - Open your web browser and visit the URL printed in the terminal (default: http://127.0.0.1:5000/)
 
