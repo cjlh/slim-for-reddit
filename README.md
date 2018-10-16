@@ -39,14 +39,20 @@ A lightweight read-only Reddit client written in Python using the Flask framewor
     ```
 - Run Flask using `application.py`:
   - E.g. using the Flask server:
-    
+
     ```export FLASK_APP=application.py; flask run```
 
 - Open your web browser and visit the URL printed in the terminal (default: http://127.0.0.1:5000/)
 
 
-## Todo
+## Features in development
 
 - [ ] Comment context view
 - [ ] Option to load more comments
 - [ ] Mod and admin highlighting
+
+
+### License
+
+This software is published under the MIT license. See the [LICENSE](LICENSE) file for more information.
+
