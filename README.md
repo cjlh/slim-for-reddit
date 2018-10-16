@@ -28,9 +28,9 @@ A lightweight read-only Reddit client written in Python using the Flask framewor
     pip3 install flask
     pip3 install markdown2
     ```
+
 - Clone the contents of this Git repository to a directory of your choice
-  - 
-    ```
+  - ```
     cd some/directory/
     git clone https://github.com/cjlh/slim-for-reddit.git .
     ```
