@@ -52,7 +52,7 @@ A lightweight read-only Reddit client written in Python using the Flask framewor
 - [ ] Mod and admin highlighting
 
 
-### License
+## License
 
 This software is published under the MIT license. See the [LICENSE](LICENSE) file for more information.
 
